@@ -1,4 +1,6 @@
 import GoogleProvider from "next-auth/providers/google";
+import connectDB from "@/config/database";
+import User from "@/models/User";
 
 export const authOptions = {
   providers: [
@@ -24,14 +26,26 @@ export const authOptions = {
   ],
   callbacks: {
     async signIn({ profile }: any) {
-      //   if (profile.email_verified && profile.email) {
-      //     return true;
-      //   }
-      //   return false;
+      await connectDB();
+      const userExists = await User.findOne({ email: profile.email });
+      if (!userExists) {
+        //Truncate username is too long
+        const username = profile.name.slice(0, 20);
+        await User.create({
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          username: username,
+        });
+      }
+
+      return true;
     },
   },
   async session({ session }: any) {
-    // session.user.id = token.sub;
-    // return session;
+    const user = await User.findOne({ email: session.user.email });
+
+    session.user.id = user._id.toString();
+    return session;
   },
 };
