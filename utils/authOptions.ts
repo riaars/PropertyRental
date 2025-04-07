@@ -42,6 +42,7 @@ export const authOptions = {
       return true;
     },
   },
+
   async session({ session }: any) {
     const user = await User.findOne({ email: session.user.email });
 
