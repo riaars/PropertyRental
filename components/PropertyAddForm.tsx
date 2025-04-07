@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { ChangeEvent, useDebugValue } from "react";
 import { useState, useEffect } from "react";
 
 const PropertyAddForm = () => {
@@ -28,15 +28,67 @@ const PropertyAddForm = () => {
       email: "test@test.com",
       phone: "",
     },
-    images: [],
+    images: [] as File[],
   });
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const handleChange = () => {};
-  const handleAmenitiesChange = () => {};
-  const handleImageChange = () => {};
+  const handleChange = (e: ChangeEvent<any>) => {
+    const { name, value } = e.target;
+    if (name.includes(".")) {
+      const [outerKey, innerKey] = name.split(".");
+      setFields((prevFields) => ({
+        ...prevFields,
+        [outerKey]: {
+          ...prevFields[outerKey],
+          [innerKey]: value,
+        },
+      }));
+    } else {
+      setFields((prevFields) => ({
+        ...prevFields,
+        [name]: value,
+      }));
+    }
+  };
+  const handleAmenitiesChange = (e: ChangeEvent<any>) => {
+    const { value, checked } = e.target;
+
+    //clone the amenities array
+    const updatedAmenities = [...fields.amenities];
+    if (checked) {
+      //add value to array if checked
+      updatedAmenities.push(value);
+    } else {
+      //remove value from array if unchecked
+      const index = updatedAmenities.indexOf(value);
+      if (index !== -1) {
+        updatedAmenities.splice(index, 1);
+      }
+    }
+
+    setFields((prevFields) => ({
+      ...prevFields,
+      amenities: updatedAmenities,
+    }));
+  };
+  const handleImageChange = (e: ChangeEvent<any>) => {
+    const { files } = e.target;
+
+    const updatedImages = [...fields.images];
+
+    //add new files
+
+    for (const file of files) {
+      updatedImages.push(file);
+    }
+
+    setFields((prevFields) => ({
+      ...prevFields,
+      images: updatedImages,
+    }));
+  };
 
   return (
     mounted && (
