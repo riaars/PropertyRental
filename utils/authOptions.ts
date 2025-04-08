@@ -41,12 +41,12 @@ export const authOptions = {
 
       return true;
     },
-  },
 
-  async session({ session }: any) {
-    const user = await User.findOne({ email: session.user.email });
+    async session({ session }: any) {
+      const user = await User.findOne({ email: session.user.email });
 
-    session.user.id = user._id.toString();
-    return session;
+      session.user.id = user._id.toString();
+      return session;
+    },
   },
 };

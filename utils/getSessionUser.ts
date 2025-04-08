@@ -8,10 +8,9 @@ export const getSessionUser = async () => {
     if (!session || !session.user) {
       return null;
     }
-    const userId = session?.user?.id;
     return {
       user: session.user,
-      id: userId,
+      userId: session.user?.id,
     };
   } catch (error) {
     console.log(error);

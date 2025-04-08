@@ -19,7 +19,6 @@ export const POST = async (request: any) => {
     await connectDB();
 
     const sessionUser = await getSessionUser();
-    console.log("Session User", sessionUser);
     if (!sessionUser || !sessionUser.userId) {
       return new Response("User ID is required", { status: 401 });
     }
@@ -61,7 +60,6 @@ export const POST = async (request: any) => {
       images,
     };
 
-    console.log(propertyData);
     return new Response(JSON.stringify({ message: "ok" }), { status: 200 });
   } catch (error) {
     return new Response("Failed to create property", { status: 500 });
