@@ -1,3 +1,4 @@
+import cloudinary from "@/config/cloudinary";
 import connectDB from "@/config/database";
 import Property from "@/models/Property";
 import { getSessionUser } from "@/utils/getSessionUser";
@@ -33,7 +34,7 @@ export const POST = async (request: any) => {
       .getAll("images")
       .filter((image: any) => image.name !== ""); // Filter out any undefined values
 
-    const propertyData = {
+    const propertyData: any = {
       type: formData.get("type"),
       name: formData.get("name"),
       description: formData.get("description"),
@@ -61,6 +62,37 @@ export const POST = async (request: any) => {
       // images,
     };
 
+    const imageUploadPromises = [];
+
+    for (const image of images) {
+      //convert image to buffer
+      const buffer = await image.arrayBuffer();
+
+      // convert to unint array
+      const imageArray = Array.from(new Uint8Array(buffer));
+      const imageData = Buffer.from(imageArray);
+
+      // convert the image to base64
+      const imageBase64 = imageData.toString("base64");
+
+      //upload to cloudinary
+      const uploadResponse = await cloudinary.uploader.upload(
+        `data:image/png;base64,${imageBase64}`,
+        {
+          folder: "propertypulse",
+        }
+      );
+
+      imageUploadPromises.push(uploadResponse.secure_url);
+    }
+
+    //wait for all images to upload
+    const uploadedImages = await Promise.all(imageUploadPromises);
+    // add uploaded images to property data
+    propertyData.images = uploadedImages;
+
+    //console.log(propertyData);
+
     const newProperty = new Property(propertyData);
     await newProperty.save();
     return Response.redirect(
@@ -69,6 +101,7 @@ export const POST = async (request: any) => {
 
     // return new Response(JSON.stringify({ message: "ok" }), { status: 200 });
   } catch (error) {
+    console.log(error);
     return new Response("Failed to create property", { status: 500 });
   }
 };
