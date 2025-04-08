@@ -4,7 +4,9 @@ import { fetchProperties } from "@/utils/requests";
 
 const PropertiesPage = async () => {
   const properties = await fetchProperties();
-  properties.sort((a: any, b: any) => new Date(a.createdAt - b.createdAt));
+  properties.sort(
+    (a: any, b: any) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
 
   return (
     <div className="container-xl lg:container m-auto px-4 py-6">

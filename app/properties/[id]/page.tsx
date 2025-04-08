@@ -9,6 +9,7 @@ import Link from "next/link";
 import PropertyDetails from "@/components/PropertyDetails";
 import { FaArrowLeft } from "react-icons/fa6";
 import Spinner from "@/components/Spinner";
+import PropertyImages from "@/components/PropertyImages";
 
 const PropertiesDetails = () => {
   const { id } = useParams();
@@ -146,6 +147,8 @@ const PropertiesDetails = () => {
                 </aside>
               </div>
             </div>
+
+            <PropertyImages images={property.images} />
           </section>
         </>
       )}
