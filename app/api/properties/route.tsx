@@ -24,6 +24,7 @@ export const POST = async (request: any) => {
     }
 
     const { userId } = sessionUser;
+
     const formData = await request.formData();
     //access all values from amenities and images
 
@@ -57,10 +58,16 @@ export const POST = async (request: any) => {
         phone: formData.get("seller_info.phone"),
       },
       owner: userId,
-      images,
+      // images,
     };
 
-    return new Response(JSON.stringify({ message: "ok" }), { status: 200 });
+    const newProperty = new Property(propertyData);
+    await newProperty.save();
+    return Response.redirect(
+      `${process.env.NEXTAUTH_URL}/properties/${newProperty._id}`
+    );
+
+    // return new Response(JSON.stringify({ message: "ok" }), { status: 200 });
   } catch (error) {
     return new Response("Failed to create property", { status: 500 });
   }
