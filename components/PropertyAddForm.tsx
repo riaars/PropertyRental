@@ -1,31 +1,31 @@
 "use client";
-import React, { ChangeEvent, useDebugValue } from "react";
+import React, { ChangeEvent } from "react";
 import { useState, useEffect } from "react";
 
 const PropertyAddForm = () => {
   const [mounted, setMounted] = useState(false);
   const [fields, setFields] = useState({
-    type: "Apartment",
+    type: "",
     name: "",
     description: "",
     location: {
       street: "",
-      city: "Test City",
-      state: "Test State",
+      city: "",
+      state: "",
       zipcode: "",
     },
-    beds: 3,
-    baths: 2,
-    square_feet: 1800,
-    amenities: ["Free Parking"],
+    beds: 0,
+    baths: 0,
+    square_feet: 0,
+    amenities: [],
     rates: {
       weekly: 0,
-      monthly: 2000,
+      monthly: 0,
       nightly: 0,
     },
     seller_info: {
       name: "",
-      email: "test@test.com",
+      email: "",
       phone: "",
     },
     images: [] as File[],
