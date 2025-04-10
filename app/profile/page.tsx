@@ -7,6 +7,7 @@ import profileDefault from "@/assets/images/profile.png";
 import React from "react";
 import { useState, useEffect } from "react";
 import Spinner from "@/components/Spinner";
+import { toast } from "react-toastify";
 
 const ProfilePage = () => {
   const { data: session } = useSession();
@@ -47,7 +48,36 @@ const ProfilePage = () => {
     }
   }, [session]);
 
-  const handleDeleteProperty = (id: string) => {};
+  const handleDeleteProperty = async (id: string) => {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this property?"
+    );
+    if (!confirm) {
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_DOMAIN}/properties/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!res.ok) {
+        toast.error("Failed to delete property");
+        throw new Error("Failed to delete property");
+      }
+
+      const updatedProperties = properties.filter(
+        (property: any) => property._id !== id
+      );
+      setProperties(updatedProperties);
+      toast.success("Property deleted successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="bg-blue-50">

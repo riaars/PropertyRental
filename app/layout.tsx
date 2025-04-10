@@ -3,6 +3,7 @@ import "@/assets/styles/global.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AuthProvider from "@/components/AuthProvider";
+import { ToastContainer } from "react-toastify";
 
 export const metadata = {
   title: "Property | Find the Perfect Rental",
@@ -22,6 +23,7 @@ const MainLayout = ({
           <Navbar />
           <main> {children}</main>
           <Footer />
+          <ToastContainer />
         </body>
       </html>
     </AuthProvider>
