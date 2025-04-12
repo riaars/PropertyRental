@@ -111,6 +111,32 @@ const PropertyEditForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     //edit submit
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_DOMAIN}/properties/${id}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
+
+      if (!res.ok) {
+        toast.error("Failed to update property.");
+        throw new Error("Failed to update property");
+      }
+      const data = await res.json();
+      if (data) {
+        toast.success("Property updated successfully!");
+        router.push(`/properties/${id}`);
+      } else {
+        toast.error("Failed to update property.");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to update property.");
+    }
   };
 
   return (
