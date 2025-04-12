@@ -17,7 +17,7 @@ async function fetchProperties() {
   }
 }
 
-async function fetchProperty(id: string) {
+async function fetchProperty(id: any) {
   try {
     if (!apiDomain) {
       return null;
