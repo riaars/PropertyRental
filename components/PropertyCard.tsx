@@ -2,6 +2,7 @@ import React from "react";
 import { FaMoneyBill, FaBath, FaBed, FaRulerCombined } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Rates {
   nightly: number;
@@ -103,12 +104,12 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
               {property.location.city} {property.location.state}
             </span>
           </div>
-          <a
+          <Link
             href={`properties/${property._id}`}
             className="h-[36px] bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-center text-sm"
           >
             Details
-          </a>
+          </Link>
         </div>
       </div>
     </div>
