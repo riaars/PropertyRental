@@ -1,6 +1,5 @@
 import connectDB from "@/config/database";
 import User from "@/models/User";
-import Property from "@/models/Property";
 import { getSessionUser } from "@/utils/getSessionUser";
 
 export const dynamic = "force-dynamic";
@@ -25,14 +24,13 @@ export const POST = async (request: Request) => {
       });
     }
 
-    //find user in db
-
     //check if property is bookmarked
     let isBookmarked = user?.bookmarks.includes(propertyId);
     let message = "";
+
     if (isBookmarked) {
       //remove property from bookmarks if already bookmarked
-      user.bookmarks = user.bookmarks.filter((id) => id !== propertyId);
+      user.bookmarks.pull(propertyId);
       message = "Property removed from bookmarks";
       isBookmarked = false;
     } else {

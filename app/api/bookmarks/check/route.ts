@@ -28,19 +28,7 @@ export const POST = async (request: Request) => {
 
     //check if property is bookmarked
     let isBookmarked = user?.bookmarks.includes(propertyId);
-    let message = "";
-    if (isBookmarked) {
-      //remove property from bookmarks if already bookmarked
-      user.bookmarks = user.bookmarks.filter((id) => id !== propertyId);
-      message = "Property removed from bookmarks";
-      isBookmarked = false;
-    } else {
-      user.bookmarks.push(propertyId);
-      message = "Property added to bookmarks";
-      isBookmarked = true;
-    }
 
-    await user.save();
     return new Response(JSON.stringify({ isBookmarked }), {
       status: 200,
     });

@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 const BookmarkButton = ({ property }: any) => {
   const { data: session } = useSession();
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const userId = session?.user?.id;
 
@@ -41,7 +42,10 @@ const BookmarkButton = ({ property }: any) => {
 
   useEffect(() => {
     const checkBookmarkStatus = async () => {
-      if (!userId) return;
+      if (!userId) {
+        setLoading(false);
+        return;
+      }
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_DOMAIN}/bookmarks/check`,
@@ -56,17 +60,19 @@ const BookmarkButton = ({ property }: any) => {
         const data = await res.json();
         if (res.ok) {
           setIsBookmarked(data.isBookmarked);
-        } else {
-          toast.error(data.message || "Something went wrong");
         }
       } catch (error) {
         console.error("Error checking bookmark status:", error);
-        toast.error("Something went wrong");
+      } finally {
+        setLoading(false);
       }
     };
     checkBookmarkStatus();
   }, [userId, property._id]);
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
   return isBookmarked ? (
     <button
       onClick={handleClick}
