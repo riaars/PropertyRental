@@ -2,6 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
+import { toast } from "react-toastify";
 const PropertyContactForm = ({ property }: any) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,11 +17,38 @@ const PropertyContactForm = ({ property }: any) => {
       email,
       phone,
       message,
-      recipient: property?.userId,
+      recipient: property?.owner,
       property: property?._id,
     };
 
-    setWasSubmitted(true);
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_DOMAIN}/messages`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      const response = await res.json();
+      if (res.status === 200) {
+        setName("");
+        setEmail("");
+        setPhone("");
+        setMessage("");
+        setWasSubmitted(true);
+        toast.success(response.message || "Message sent successfully");
+      } else if (res.status === 401 || res.status === 400) {
+        toast.error(response.message || "Something went wrong");
+        console.error(response.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong, please try again later");
+    }
   };
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
