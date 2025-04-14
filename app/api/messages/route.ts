@@ -47,3 +47,28 @@ export const POST = async (request: Request) => {
     });
   }
 };
+
+//GET /api/messages
+
+export const GET = async (request: Request) => {
+  try {
+    await connectDB();
+    const sessionUser = await getSessionUser();
+    if (!sessionUser || !sessionUser.user) {
+      return new Response(JSON.stringify({ message: "User ID is required" }), {
+        status: 401,
+      });
+    }
+    const { userId } = sessionUser;
+    const messages = await Message.find({ recipient: userId })
+      .populate("sender", "name")
+      .populate("property", "title");
+
+    return new Response(JSON.stringify(messages), { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return new Response(JSON.stringify({ message: "Something went wrong" }), {
+      status: 500,
+    });
+  }
+};
