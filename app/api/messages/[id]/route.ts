@@ -50,3 +50,49 @@ export const PUT = async (request: Request, { params }: any) => {
     });
   }
 };
+
+//DELETE /api/messages/:id
+export const DELETE = async (request: Request, { params }: any) => {
+  try {
+    await connectDB();
+    const sessionUser = await getSessionUser();
+    if (!sessionUser || !sessionUser.user) {
+      return new Response(JSON.stringify({ message: "User ID is required" }), {
+        status: 401,
+      });
+    }
+    const { id } = params;
+    const { userId } = sessionUser;
+    const message = await Message.findById(id);
+
+    if (!message) {
+      return new Response(JSON.stringify({ message: "Message not found" }), {
+        status: 404,
+      });
+    }
+    if (message.recipient.toString() !== userId) {
+      return new Response(
+        JSON.stringify({
+          message: "You are not authorized to delete this message",
+        }),
+        {
+          status: 401,
+        }
+      );
+    }
+    await message.deleteOne();
+    return new Response(
+      JSON.stringify({
+        message: "Message deleted successfully",
+      }),
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    return new Response(JSON.stringify({ message: "Something went wrong" }), {
+      status: 500,
+    });
+  }
+};
