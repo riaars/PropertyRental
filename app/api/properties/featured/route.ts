@@ -1,7 +1,7 @@
 import connectDB from "@/config/database";
 import Property from "@/models/Property";
 
-// GET /api/properties
+// GET /api/featured
 export const GET = async (request: any) => {
   try {
     await connectDB();
