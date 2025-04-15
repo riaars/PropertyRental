@@ -2,18 +2,22 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import PropertyCard from "./PropertyCard";
-import { fetchProperties } from "@/utils/requests";
+import Pagination from "./Pagination";
 
 const Properties = () => {
   const [properties, setProperties] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(4);
+  const [pageSize, setPageSize] = useState(6);
   const [totalProperties, setTotalProperties] = useState(0);
 
   properties.sort(
     (a: any, b: any) => new Date(b.createdAt) - new Date(a.createdAt)
   );
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -35,7 +39,7 @@ const Properties = () => {
     };
 
     fetchProperties();
-  }, []);
+  }, [page, pageSize]);
 
   return (
     <div className="container-xl lg:container m-auto px-4 py-6">
@@ -49,6 +53,12 @@ const Properties = () => {
           ))
         )}
       </div>
+      <Pagination
+        page={page}
+        pageSize={pageSize}
+        totalItems={totalProperties}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };
