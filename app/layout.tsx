@@ -1,3 +1,4 @@
+import "photoswipe/dist/photoswipe.css";
 import React from "react";
 import "@/assets/styles/global.css";
 import Navbar from "@/components/Navbar";
