@@ -1,3 +1,4 @@
+import { PropertyDataProps } from "@/types/property";
 import React from "react";
 import {
   FacebookShareButton,
@@ -9,7 +10,7 @@ import {
   WhatsappIcon,
   EmailIcon,
 } from "react-share";
-const ShareButton = ({ property }: any) => {
+const ShareButton = ({ property }: { property: PropertyDataProps }) => {
   const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/properties/${property._id}`;
 
   return (

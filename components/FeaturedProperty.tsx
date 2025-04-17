@@ -8,7 +8,8 @@ import {
   FaMapMarker,
 } from "react-icons/fa";
 import Image from "next/image";
-const FeaturedProperty = ({ property }: any) => {
+import { PropertyDataProps } from "@/types/property";
+const FeaturedProperty = ({ property }: { property: PropertyDataProps }) => {
   const getRateDisplay = () => {
     const { rates } = property;
     if (rates.monthly) {

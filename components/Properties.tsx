@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import React from "react";
 import PropertyCard from "./PropertyCard";
 import Pagination from "./Pagination";
+import { PropertyDataProps } from "@/types/property";
 
 const Properties = () => {
-  const [properties, setProperties] = useState<any[]>([]);
+  const [properties, setProperties] = useState<PropertyDataProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [pageSize] = useState(6);
@@ -49,7 +50,7 @@ const Properties = () => {
           (properties.length === 0 ? (
             <p>No search results found</p>
           ) : (
-            properties?.map((property: any) => (
+            properties?.map((property: PropertyDataProps) => (
               <PropertyCard key={property._id} property={property} />
             ))
           ))}

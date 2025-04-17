@@ -1,10 +1,11 @@
 "use client";
+import { PropertyDataProps } from "@/types/property";
 import { useSession } from "next-auth/react";
 import React from "react";
 import { useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
 import { toast } from "react-toastify";
-const PropertyContactForm = ({ property }: any) => {
+const PropertyContactForm = ({ property }: { property: PropertyDataProps }) => {
   const { data: session } = useSession();
 
   const [name, setName] = useState("");

@@ -2,6 +2,7 @@ import React from "react";
 import PropertyCard from "./PropertyCard";
 import { fetchProperties } from "@/utils/requests";
 import Link from "next/link";
+import { PropertyDataProps } from "@/types/property";
 
 const HomeProperties = async () => {
   const data = await fetchProperties();
@@ -20,7 +21,7 @@ const HomeProperties = async () => {
             {recentProperties.length === 0 ? (
               <p>No properties found</p>
             ) : (
-              recentProperties.map((property: any) => (
+              recentProperties.map((property: PropertyDataProps) => (
                 <PropertyCard key={property._id} property={property} />
               ))
             )}

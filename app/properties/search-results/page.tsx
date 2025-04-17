@@ -7,10 +7,11 @@ import { FaCircleArrowLeft } from "react-icons/fa6";
 import Spinner from "@/components/Spinner";
 import PropertyCard from "@/components/PropertyCard";
 import PropertySearchForm from "@/components/PropertySearchForm";
+import { PropertyDataProps } from "@/types/property";
 
 const SearchResultsPage = () => {
   const searchParams = useSearchParams();
-  const [properties, setProperties] = useState<any[]>([]);
+  const [properties, setProperties] = useState<PropertyDataProps[]>([]);
   const [loading, setLoading] = useState(true);
   const location = searchParams.get("location") || "";
   const propertyType = searchParams.get("propertyType") || "";
@@ -70,7 +71,7 @@ const SearchResultsPage = () => {
             {properties.length === 0 ? (
               <p>No search results found</p>
             ) : (
-              properties?.map((property: any) => (
+              properties?.map((property: PropertyDataProps) => (
                 <PropertyCard key={property._id} property={property} />
               ))
             )}

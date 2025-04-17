@@ -1,6 +1,7 @@
 import React from "react";
 import { fetchProperties } from "@/utils/requests";
 import FeaturedProperty from "./FeaturedProperty";
+import { PropertyDataProps } from "@/types/property";
 
 const FeaturedProperties = async () => {
   const properties = await fetchProperties({ showFeatured: true });
@@ -12,7 +13,7 @@ const FeaturedProperties = async () => {
             Featured Properties
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {properties.map((property: any) => (
+            {properties.map((property: PropertyDataProps) => (
               <FeaturedProperty key={property._id} property={property} />
             ))}
           </div>

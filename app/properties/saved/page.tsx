@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import PropertyCard from "@/components/PropertyCard";
 import Spinner from "@/components/Spinner";
 import { toast } from "react-toastify";
+import { PropertyDataProps } from "@/types/property";
 
 const SavedPropertiesPage = () => {
   const [properties, setProperties] = useState([]);
@@ -47,7 +48,7 @@ const SavedPropertiesPage = () => {
         {properties.length === 0 ? (
           <p>No saved properties</p>
         ) : (
-          properties?.map((property: any) => (
+          properties?.map((property: PropertyDataProps) => (
             <PropertyCard key={property._id} property={property} />
           ))
         )}

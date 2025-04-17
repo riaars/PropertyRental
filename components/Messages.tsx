@@ -3,6 +3,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Spinner from "@/components/Spinner";
 import Message from "./Message";
+import { MessageProps } from "@/types/message";
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
@@ -43,7 +44,7 @@ const Messages = () => {
             {messages.length === 0 ? (
               <p>You have no messages</p>
             ) : (
-              messages.map((message: any) => (
+              messages.map((message: MessageProps) => (
                 <Message key={message._id} message={message} />
               ))
             )}
