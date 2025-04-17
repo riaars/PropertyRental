@@ -1,19 +1,23 @@
 import cloudinary from "@/config/cloudinary";
 import connectDB from "@/config/database";
 import Property from "@/models/Property";
+import { PropertyDataProps } from "@/types/property";
 import { getSessionUser } from "@/utils/getSessionUser";
+import { NextRequest } from "next/server";
 
 // GET /api/properties
-export const GET = async (request: any) => {
+export const GET = async (request: NextRequest) => {
   try {
     await connectDB();
     const page = request.nextUrl.searchParams.get("page") || 1;
     const pageSize = request.nextUrl.searchParams.get("pageSize") || 6;
-    const skip = (page - 1) * pageSize;
+    const skip = (Number(page) - 1) * Number(pageSize);
 
     const totalProperties = await Property.countDocuments({});
 
-    const properties = await Property.find({}).skip(skip).limit(pageSize);
+    const properties = await Property.find({})
+      .skip(skip)
+      .limit(Number(pageSize));
     return new Response(JSON.stringify({ totalProperties, properties }), {
       status: 200,
     });
@@ -23,7 +27,7 @@ export const GET = async (request: any) => {
   }
 };
 
-export const POST = async (request: any) => {
+export const POST = async (request: Request) => {
   try {
     await connectDB();
 
@@ -37,34 +41,34 @@ export const POST = async (request: any) => {
     const formData = await request.formData();
     //access all values from amenities and images
 
-    const amenities = formData.getAll("amenities");
-    const images = formData
-      .getAll("images")
-      .filter((image: any) => image.name !== ""); // Filter out any undefined values
+    const amenities = formData.getAll("amenities") as string[];
+    const images = (formData.getAll("images") as File[]).filter(
+      (image: File) => image.name !== ""
+    ); // Filter out any undefined values
 
-    const propertyData: any = {
-      type: formData.get("type"),
-      name: formData.get("name"),
-      description: formData.get("description"),
+    const propertyData: PropertyDataProps = {
+      type: formData.get("type") as string,
+      name: formData.get("name") as string,
+      description: formData.get("description") as string,
       location: {
-        street: formData.get("location.street"),
-        city: formData.get("location.city"),
-        state: formData.get("location.state"),
-        zipcode: formData.get("location.zipcode"),
+        street: formData.get("location.street") as string,
+        city: formData.get("location.city") as string,
+        state: formData.get("location.state") as string,
+        zipcode: formData.get("location.zipcode") as string,
       },
-      beds: formData.get("beds"),
-      baths: formData.get("baths"),
-      square_feet: formData.get("square_feet"),
+      beds: Number(formData.get("beds")),
+      baths: Number(formData.get("baths")),
+      square_feet: Number(formData.get("square_feet")),
       amenities,
       rates: {
-        weekly: formData.get("rates.weekly"),
-        monthly: formData.get("rates.monthly"),
-        nightly: formData.get("rates.nightly"),
+        weekly: Number(formData.get("rates.weekly")),
+        monthly: Number(formData.get("rates.monthly")),
+        nightly: Number(formData.get("rates.nightly")),
       },
       seller_info: {
-        name: formData.get("seller_info.name"),
-        email: formData.get("seller_info.email"),
-        phone: formData.get("seller_info.phone"),
+        name: formData.get("seller_info.name") as string,
+        email: formData.get("seller_info.email") as string,
+        phone: formData.get("seller_info.phone") as string,
       },
       owner: userId,
       // images,

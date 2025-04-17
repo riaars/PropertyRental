@@ -8,6 +8,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Spinner from "@/components/Spinner";
 import { toast } from "react-toastify";
+import { PropertyDataProps } from "@/types/property";
 
 const ProfilePage = () => {
   const { data: session } = useSession();
@@ -41,7 +42,7 @@ const ProfilePage = () => {
     };
 
     if (session) {
-      const userId = session.user.id;
+      const userId = session.user?.id;
       if (userId) {
         fetchUserProperties(userId);
       }
@@ -70,7 +71,7 @@ const ProfilePage = () => {
       }
 
       const updatedProperties = properties.filter(
-        (property: any) => property._id !== id
+        (property: PropertyDataProps) => property._id !== id
       );
       setProperties(updatedProperties);
       toast.success("Property deleted successfully");
@@ -112,7 +113,7 @@ const ProfilePage = () => {
               {loading ? (
                 <Spinner loading={loading} />
               ) : (
-                properties.map((property: any) => (
+                properties.map((property: PropertyDataProps) => (
                   <div className="mb-10" key={property._id}>
                     <Link href="/property">
                       <Image
