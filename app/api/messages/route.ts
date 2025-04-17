@@ -1,7 +1,6 @@
 import connectDB from "@/config/database";
 import Message from "@/models/Message";
 import { getSessionUser } from "@/utils/getSessionUser";
-import { create } from "domain";
 
 export const dynamic = "force-dynamic";
 
@@ -51,7 +50,7 @@ export const POST = async (request: Request) => {
 
 //GET /api/messages
 
-export const GET = async (request: Request) => {
+export const GET = async () => {
   try {
     await connectDB();
     const sessionUser = await getSessionUser();

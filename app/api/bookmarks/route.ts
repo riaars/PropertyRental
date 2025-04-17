@@ -5,7 +5,7 @@ import { getSessionUser } from "@/utils/getSessionUser";
 
 export const dynamic = "force-dynamic";
 
-export const GET = async (request: Request) => {
+export const GET = async () => {
   try {
     await connectDB();
     const sessionUser = await getSessionUser();

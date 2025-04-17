@@ -10,7 +10,7 @@ export const GET = async (request: Request) => {
     const propertyType = searchParams.get("propertyType") || "";
     const locationPattern = new RegExp(location, "i");
 
-    let query = {
+    const query = {
       $or: [
         { name: locationPattern },
         { description: locationPattern },
