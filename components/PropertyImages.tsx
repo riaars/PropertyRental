@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { Gallery, Item } from "react-photoswipe-gallery";
 
-const PropertyImages = ({ images }: any) => {
+const PropertyImages = ({ images }: { images: string[] }) => {
   return (
     <Gallery>
       <section className="bg-blue-50 p-4">
@@ -29,11 +29,13 @@ const PropertyImages = ({ images }: any) => {
             </Item>
           ) : (
             <div className="grid grid-cols-2 gap-4">
-              {images.map((image: any, index: number) => (
+              {images.map((image, index: number) => (
                 <div
                   key={index}
                   className={`${
-                    images === 3 && index == 2 ? "col-span-2" : "col-span-1"
+                    images.length === 3 && index == 2
+                      ? "col-span-2"
+                      : "col-span-1"
                   }`}
                 >
                   <Item

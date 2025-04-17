@@ -5,7 +5,15 @@ import logo from "@/assets/images/logo-white.png";
 import profileDefault from "@/assets/images/profile.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import {
+  signIn,
+  signOut,
+  useSession,
+  getProviders,
+  ClientSafeProvider,
+  LiteralUnion,
+} from "next-auth/react";
+import { BuiltInProviderType } from "next-auth/providers/index";
 import UnreadMessageCount from "./UnreadMessageCount";
 
 const Navbar = () => {
@@ -14,7 +22,10 @@ const Navbar = () => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const [providers, setProviders] = useState<any>(null);
+  const [providers, setProviders] = useState<Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  > | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -106,18 +117,16 @@ const Navbar = () => {
             <div className="hidden md:block md:ml-6">
               <div className="flex items-center">
                 {providers &&
-                  Object.values(providers).map(
-                    (provider: any, index: number) => (
-                      <button
-                        key={index}
-                        onClick={() => signIn(provider.id)}
-                        className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                      >
-                        <i className="fa-brands fa-google text-white mr-2"></i>
-                        <span>Login or Register</span>
-                      </button>
-                    )
-                  )}
+                  Object.values(providers).map((provider, index: number) => (
+                    <button
+                      key={index}
+                      onClick={() => signIn(provider.id)}
+                      className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
+                    >
+                      <i className="fa-brands fa-google text-white mr-2"></i>
+                      <span>Login or Register</span>
+                    </button>
+                  ))}
               </div>
             </div>
           )}
@@ -259,7 +268,7 @@ const Navbar = () => {
             )}
             {!session &&
               providers &&
-              Object.values(providers).map((provider: any, index: number) => (
+              Object.values(providers).map((provider, index: number) => (
                 <button
                   key={index}
                   onClick={() => signIn(provider.id)}

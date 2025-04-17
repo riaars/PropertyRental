@@ -13,7 +13,8 @@ const Properties = () => {
   const [totalProperties, setTotalProperties] = useState(0);
 
   properties.sort(
-    (a: any, b: any) => new Date(b.createdAt) - new Date(a.createdAt)
+    (a: PropertyDataProps, b: PropertyDataProps) =>
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
 
   const handlePageChange = (newPage: number) => {

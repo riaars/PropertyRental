@@ -25,4 +25,6 @@ export type PropertyDataProps = {
   };
   owner: string;
   images: string[];
+  createdAt: Date;
+  updatedAt: Date;
 };

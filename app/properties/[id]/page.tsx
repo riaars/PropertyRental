@@ -13,10 +13,11 @@ import PropertyImages from "@/components/PropertyImages";
 import BookmarkButton from "@/components/BookmarkButton";
 import ShareButton from "@/components/ShareButton";
 import PropertyContactForm from "@/components/PropertyContactForm";
+import { PropertyDataProps } from "@/types/property";
 
 const PropertiesDetails = () => {
   const { id } = useParams();
-  const [property, setProperty] = useState<any>(null);
+  const [property, setProperty] = useState<PropertyDataProps | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

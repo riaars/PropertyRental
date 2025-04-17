@@ -3,8 +3,9 @@ import { useState } from "react";
 import React from "react";
 import { toast } from "react-toastify";
 import { useGlobalContext } from "@/context/GlobalContex";
+import { MessageProps } from "@/types/message";
 
-const Message = ({ message }: any) => {
+const Message = ({ message }: { message: MessageProps }) => {
   const [isRead, setIsRead] = useState(message.read);
   const [isDeleted, setIsDeleted] = useState(false);
 

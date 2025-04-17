@@ -4,8 +4,13 @@ import { getSessionUser } from "@/utils/getSessionUser";
 
 export const dynamic = "force-dynamic";
 
+interface Params {
+  params: {
+    id: string;
+  };
+}
 //PUT /api/messages/:id
-export const PUT = async (request: Request, { params }: any) => {
+export const PUT = async (_request: Request, { params }: Params) => {
   try {
     await connectDB();
     const sessionUser = await getSessionUser();
@@ -52,7 +57,7 @@ export const PUT = async (request: Request, { params }: any) => {
 };
 
 //DELETE /api/messages/:id
-export const DELETE = async (request: Request, { params }: any) => {
+export const DELETE = async (_request: Request, { params }: Params) => {
   try {
     await connectDB();
     const sessionUser = await getSessionUser();
