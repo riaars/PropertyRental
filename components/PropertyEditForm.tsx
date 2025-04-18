@@ -22,7 +22,7 @@ const PropertyEditForm = () => {
     beds: 0,
     baths: 0,
     square_feet: 0,
-    amenities: [],
+    amenities: [] as string[],
     rates: {
       weekly: 0,
       monthly: 0,
@@ -69,7 +69,9 @@ const PropertyEditForm = () => {
     fetchPropertyData();
   }, [id]);
 
-  const handleChange = (e: ChangeEvent<any>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     if (name.includes(".")) {
       const [outerKey, innerKey] = name.split(".");
@@ -87,7 +89,7 @@ const PropertyEditForm = () => {
       }));
     }
   };
-  const handleAmenitiesChange = (e: ChangeEvent<any>) => {
+  const handleAmenitiesChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
 
     //clone the amenities array

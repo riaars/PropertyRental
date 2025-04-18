@@ -17,7 +17,7 @@ const PropertyAddForm = () => {
     beds: 0,
     baths: 0,
     square_feet: 0,
-    amenities: [],
+    amenities: [] as string[],
     rates: {
       weekly: 0,
       monthly: 0,
@@ -34,7 +34,9 @@ const PropertyAddForm = () => {
     setMounted(true);
   }, []);
 
-  const handleChange = (e: ChangeEvent<any>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     if (name.includes(".")) {
       const [outerKey, innerKey] = name.split(".");
@@ -52,11 +54,11 @@ const PropertyAddForm = () => {
       }));
     }
   };
-  const handleAmenitiesChange = (e: ChangeEvent<any>) => {
+  const handleAmenitiesChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
 
     //clone the amenities array
-    const updatedAmenities = [...fields.amenities];
+    const updatedAmenities: string[] = [...fields.amenities];
     if (checked) {
       //add value to array if checked
       updatedAmenities.push(value);
@@ -73,16 +75,16 @@ const PropertyAddForm = () => {
       amenities: updatedAmenities,
     }));
   };
-  const handleImageChange = (e: ChangeEvent<any>) => {
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
 
     const updatedImages = [...fields.images];
 
     //add new files
-
-    for (const file of files) {
-      updatedImages.push(file);
-    }
+    if (files)
+      for (const file of files) {
+        updatedImages.push(file);
+      }
 
     setFields((prevFields) => ({
       ...prevFields,

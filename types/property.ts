@@ -24,7 +24,7 @@ export type PropertyDataProps = {
     phone: string;
   };
   owner: string;
-  images: string[];
+  images: File[];
   createdAt: Date;
   updatedAt: Date;
 };
