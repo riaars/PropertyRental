@@ -1,6 +1,7 @@
 import connectDB from "@/config/database";
 import Message from "@/models/Message";
 import { getSessionUser } from "@/utils/getSessionUser";
+import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,7 @@ interface Params {
   };
 }
 //PUT /api/messages/:id
-export const PUT = async (_request: Request, { params }: Params) => {
+export const PUT = async (_request: NextRequest, { params }: Params) => {
   try {
     await connectDB();
     const sessionUser = await getSessionUser();
@@ -57,7 +58,7 @@ export const PUT = async (_request: Request, { params }: Params) => {
 };
 
 //DELETE /api/messages/:id
-export const DELETE = async (_request: Request, { params }: Params) => {
+export const DELETE = async (_request: NextRequest, { params }: Params) => {
   try {
     await connectDB();
     const sessionUser = await getSessionUser();

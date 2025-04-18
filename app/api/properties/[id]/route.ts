@@ -60,7 +60,7 @@ export const DELETE = async (_request: NextRequest, { params }: Params) => {
 };
 
 // PUT /api/properties/:id
-export const PUT = async (request: Request, { params }: Params) => {
+export const PUT = async (request: NextRequest, { params }: Params) => {
   try {
     await connectDB();
 
